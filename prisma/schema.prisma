@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+}
+
+
+
+// Enums para tipo de usuario
+enum TipoUsuario {
+  ADMIN
+  USUARIO
+}
+
+// Enums para tipo de acciones
+enum TipoAccion {
+  CREAR
+  LEER
+  ACTUALIZAR
+  ELIMINAR
+}
+
+// Enums para tipo de recursos
+enum TipoRecurso {
+  CLIENTE
+  OPTICA
+  FICHA
+  STOCK
+  USUARIO
+}
+
+
+// Cliente (paciente)
+model Cliente {
+  id     Int     @id @default(autoincrement())
+  titular String 
+  beneficiario String
+  dni    String  @unique
+  nroAfiliado String
+  contacto Json? @db.Json 
+  activo Boolean @default(true)
+  fichas Ficha[]
+}
+
+// Óptica y sucursal
+model Optica {
+  id           Int          @id @default(autoincrement())
+  nombre       String
+  delegacionId Int
+  delegacion   Delegacion @relation(fields: [delegacionId], references: [id])
+  activo       Boolean      @default(true)
+  fichas       Ficha[]
+}
+
+model Delegacion {
+  id     Int      @id @default(autoincrement())
+  nombre String
+  activo Boolean  @default(true)
+  Optica Optica[]
+  fichas       Ficha[]
+}
+
+model Sindicato {
+  id     Int      @id @default(autoincrement())
+  nombre String
+  activo Boolean  @default(true)
+  fichas       Ficha[]
+}
+
+model TipoLente {
+  id     Int      @id @default(autoincrement())
+  nombre String
+  activo Boolean  @default(true)
+  fichas       Ficha[]
+}
+
+model Armazon {
+  id             Int      @id @default(autoincrement())
+  cantidad       Int      @default(0)
+  material String
+  tipoArmazon String
+  ubicacion String
+  activo Boolean  @default(true)
+  codigoColor String
+  descripcionColor String
+  nroCodigoInterno String
+  letraColorInterno String
+  cantidadMinima Int @default(0)
+  costo Decimal @db.Decimal(10, 2)
+  precioVenta Decimal @db.Decimal(10, 2)
+  fichas       Ficha[]
+}
+
+// Ficha de pedido (versión simple)
+model Ficha {
+  id        Int         @id @default(autoincrement())
+  nro_pedido String
+  fecha DateTime
+  estado Int  @default(1)
+  gradOdEsf String?
+  gradOdCil String?
+  ejeOd String?
+  gradOiEsf String?
+  gradOiCil String?
+  ejeOi String?
+  esCasaCentral Int
+  voucher String
+  codigoArmazon String
+  colorArmazon String
+  idTipoLente Int
+  idCliente Int
+  idSindicato Int
+  idDelegacion Int
+  idOptica Int
+  idArmazon Int
+  activo Boolean @default(true)
+  cliente Cliente @relation(fields: [idCliente], references: [id])
+  optica Optica @relation(fields: [idOptica], references: [id])
+  armazon Armazon @relation(fields: [idArmazon], references: [id])
+  tipoLente TipoLente @relation(fields: [idTipoLente], references: [id])
+  sindicato Sindicato @relation(fields: [idSindicato], references: [id])
+  delegacion Delegacion @relation(fields: [idDelegacion], references: [id])
+}
+
+
+
+
+
+// Usuarios y roles para autenticación básica
+model Rol {
+  id       Int       @id @default(autoincrement())
+  nombre   TipoUsuario
+  usuarios Usuario[]
+}
+
+model Usuario {
+  id          Int     @id @default(autoincrement())
+  nombre      String
+  clave       String
+  usuario     String  @unique
+  token       String?
+  rolId       Int
+  rol         Rol     @relation(fields: [rolId], references: [id])
+  activo      Boolean @default(true)
+  acciones    Accion[]
+}
+
+model Accion {
+  id           Int      @id @default(autoincrement())
+  usuarioId    Int
+  usuario      Usuario  @relation(fields: [usuarioId], references: [id])
+  fecha        DateTime @default(now())
+  accion       TipoAccion
+  recurso      TipoRecurso
+  recursoId    Int?     // id del registro afectado
+}
