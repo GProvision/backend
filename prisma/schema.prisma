@@ -54,7 +54,8 @@ model Optica {
   delegacion   Delegacion @relation(fields: [delegacionId], references: [id])
   activo       Boolean      @default(true)
   fichas       Ficha[]
-}
+  sindicatos Sindicato[]
+  }
 
 model Delegacion {
   id     Int      @id @default(autoincrement())
@@ -62,6 +63,7 @@ model Delegacion {
   activo Boolean  @default(true)
   Optica Optica[]
   fichas       Ficha[]
+  sindicatos Sindicato[]
 }
 
 model Sindicato {
@@ -69,6 +71,8 @@ model Sindicato {
   nombre String
   activo Boolean  @default(true)
   fichas       Ficha[]
+  delegaciones Delegacion[]
+  opticas Optica[]
 }
 
 model TipoLente {
