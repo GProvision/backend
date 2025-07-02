@@ -10,11 +10,6 @@ datasource db {
 
 
 
-// Enums para tipo de usuario
-enum TipoUsuario {
-  ADMIN
-  USUARIO
-}
 
 // Enums para tipo de acciones
 enum TipoAccion {
@@ -38,9 +33,11 @@ enum TipoRecurso {
 model Cliente {
   id     Int     @id @default(autoincrement())
   titular String 
-  beneficiario String
-  dni    String  @unique
+  beneficiario String  
+  dni    String? 
   nroAfiliado String
+  idSindicato Int 
+  sindicato Sindicato @relation(fields: [idSindicato], references: [id])  
   contacto Json? @db.Json 
   activo Boolean @default(true)
   fichas Ficha[]
@@ -73,6 +70,7 @@ model Sindicato {
   fichas       Ficha[]
   delegaciones Delegacion[]
   opticas Optica[]
+  clientes Cliente[]
 }
 
 model TipoLente {
@@ -136,8 +134,8 @@ model Ficha {
 
 // Usuarios y roles para autenticación básica
 model Rol {
-  id       Int       @id @default(autoincrement())
-  nombre   TipoUsuario
+id       Int       @id @default(autoincrement())
+  nombre   String
   usuarios Usuario[]
 }
 
