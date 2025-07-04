@@ -4,17 +4,13 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
-
-
-
 
 // Enums para tipo de acciones
 enum TipoAccion {
   CREAR
-  LEER
   ACTUALIZAR
   ELIMINAR
 }
@@ -23,140 +19,175 @@ enum TipoAccion {
 enum TipoRecurso {
   CLIENTE
   OPTICA
-  FICHA
-  STOCK
   USUARIO
+  FICHA
+  TIPO_LENTE
+  ARMAZON
+  DELEGACION
+  SINDICATO
 }
-
 
 // Cliente (paciente)
 model Cliente {
-  id     Int     @id @default(autoincrement())
-  titular String 
-  beneficiario String  
-  dni    String? 
-  nroAfiliado String
-  idSindicato Int 
-  sindicato Sindicato @relation(fields: [idSindicato], references: [id])  
-  contacto Json? @db.Json 
-  activo Boolean @default(true)
-  fichas Ficha[]
-}
-
-// Óptica y sucursal
-model Optica {
-  id           Int          @id @default(autoincrement())
-  nombre       String
-  delegacionId Int
-  delegacion   Delegacion @relation(fields: [delegacionId], references: [id])
-  activo       Boolean      @default(true)
+  id           Int       @id @default(autoincrement())
+  titular      String
+  beneficiario String  @unique
+  dni          String  @unique
+  nroAfiliado  String  @unique
+  idSindicato  Int
+  sindicato    Sindicato @relation(fields: [idSindicato], references: [id])
+  contacto     Json?     @db.Json
+  activo       Boolean   @default(true)
   fichas       Ficha[]
-  sindicatos Sindicato[]
-  }
 
-model Delegacion {
-  id     Int      @id @default(autoincrement())
-  nombre String
-  activo Boolean  @default(true)
-  Optica Optica[]
-  fichas       Ficha[]
-  sindicatos Sindicato[]
+  @@index([beneficiario, dni, nroAfiliado])
 }
 
 model Sindicato {
-  id     Int      @id @default(autoincrement())
-  nombre String
-  activo Boolean  @default(true)
-  fichas       Ficha[]
+  id           Int          @id @default(autoincrement())
+  nombre       String  @unique
+  activo       Boolean      @default(true)
   delegaciones Delegacion[]
-  opticas Optica[]
-  clientes Cliente[]
+  opticas      Optica[]
+  clientes     Cliente[] // Un Sindicato tiene muchos Clientes
+  fichas       Ficha[]
+
+  @@index([nombre])
+}
+
+model Delegacion {
+  id         Int         @id @default(autoincrement())
+  nombre     String  @unique
+  activo     Boolean     @default(true)
+  sindicatos Sindicato[]
+  fichas     Ficha[]
+
+  @@index([nombre])
+}
+
+model Optica {
+  id         Int         @id @default(autoincrement())
+  nombre     String  @unique
+  activo     Boolean     @default(true)
+  sindicatos Sindicato[]
+  fichas     Ficha[]
+
+  @@index([nombre])
 }
 
 model TipoLente {
-  id     Int      @id @default(autoincrement())
-  nombre String
-  activo Boolean  @default(true)
-  fichas       Ficha[]
+  id     Int     @id @default(autoincrement())
+  nombre String  @unique
+  activo Boolean @default(true)
+  lentes Lente[]
+
+  @@index([nombre])
+}
+
+model Laboratorio {
+  id     Int     @id @default(autoincrement())
+  nombre String  @unique
+  activo Boolean @default(true)
+  lentes Lente[]
+
+  @@index([nombre])
 }
 
 model Armazon {
-  id             Int      @id @default(autoincrement())
-  cantidad       Int      @default(0)
-  material String
-  tipoArmazon String
-  ubicacion String
-  activo Boolean  @default(true)
-  codigoColor String
-  descripcionColor String
-  nroCodigoInterno String
-  letraColorInterno String
-  cantidadMinima Int @default(0)
-  costo Decimal @db.Decimal(10, 2)
-  precioVenta Decimal @db.Decimal(10, 2)
-  fichas       Ficha[]
+  id                Int     @id @default(autoincrement())
+  material          String
+  tipoArmazon       String
+  ubicacion         String
+  color             String
+  codigoColor       String
+  codigoInterno     String  @unique
+  cantidad          Int     @default(0)
+  cantidadMinima    Int     @default(2)
+  activo            Boolean @default(true)
+  costo             Decimal @db.Decimal(10, 2) @default(0.00)
+  precioVenta       Decimal @db.Decimal(10, 2) @default(0.00)
+  fichas            Ficha[]
+
+  @@index([codigoInterno])
 }
 
 // Ficha de pedido (versión simple)
 model Ficha {
-  id        Int         @id @default(autoincrement())
-  nro_pedido String
-  fecha DateTime
-  estado Int  @default(1)
-  gradOdEsf String?
-  gradOdCil String?
-  ejeOd String?
-  gradOiEsf String?
-  gradOiCil String?
-  ejeOi String?
-  esCasaCentral Int
-  voucher String
-  codigoArmazon String
-  colorArmazon String
-  idTipoLente Int
-  idCliente Int
-  idSindicato Int
+  id            Int      @id @default(autoincrement())
+  nro_pedido    String
+  fecha         DateTime
+  estado        Int      @default(1)
+  esCasaCentral Boolean  @default(false)
+  voucher       String
+  activo        Boolean  @default(true)
+
+  idCliente    Int
+  idSindicato  Int
   idDelegacion Int
-  idOptica Int
-  idArmazon Int
-  activo Boolean @default(true)
-  cliente Cliente @relation(fields: [idCliente], references: [id])
-  optica Optica @relation(fields: [idOptica], references: [id])
-  armazon Armazon @relation(fields: [idArmazon], references: [id])
-  tipoLente TipoLente @relation(fields: [idTipoLente], references: [id])
-  sindicato Sindicato @relation(fields: [idSindicato], references: [id])
+  idOptica     Int
+  idArmazon    Int
+
+  cliente    Cliente    @relation(fields: [idCliente], references: [id])
+  optica     Optica     @relation(fields: [idOptica], references: [id])
+  armazon    Armazon    @relation(fields: [idArmazon], references: [id])
+  sindicato  Sindicato  @relation(fields: [idSindicato], references: [id])
   delegacion Delegacion @relation(fields: [idDelegacion], references: [id])
+  lentes     Lente[]
+
+  @@index([nro_pedido, voucher])
 }
 
+model Lente {
+  id        Int     @id @default(autoincrement())
+  tipo      String
+  extra     Json?   @db.Json
+  // Datos del lente
+  gradOdEsf String?
+  gradOdCil String?
+  ejeOd     String?
+  gradOiEsf String?
+  gradOiCil String?
+  ejeOi     String?
 
+  // Relaciones
+  idLaboratorio Int?
+  idTipoLente   Int?
+  laboratorio   Laboratorio? @relation(fields: [idLaboratorio], references: [id])
+  tipoLente     TipoLente?   @relation(fields: [idTipoLente], references: [id])
+  fichas        Ficha[]
 
-
+  @@index([gradOdEsf, gradOdCil, ejeOd, gradOiEsf, gradOiCil, ejeOi])
+}
 
 // Usuarios y roles para autenticación básica
 model Rol {
-id       Int       @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   nombre   String
   usuarios Usuario[]
 }
 
 model Usuario {
-  id          Int     @id @default(autoincrement())
-  nombre      String
-  clave       String
-  usuario     String  @unique
-  token       String?
-  rolId       Int
-  rol         Rol     @relation(fields: [rolId], references: [id])
-  activo      Boolean @default(true)
-  acciones    Accion[]
+  id       Int      @id @default(autoincrement())
+  nombre   String
+  clave    String
+  usuario  String   @unique
+  token    String?
+  rolId    Int
+  rol      Rol      @relation(fields: [rolId], references: [id])
+  activo   Boolean  @default(true)
+  acciones Accion[]
+
+  @@index([usuario, nombre])
 }
 
 model Accion {
-  id           Int      @id @default(autoincrement())
-  usuarioId    Int
-  usuario      Usuario  @relation(fields: [usuarioId], references: [id])
-  fecha        DateTime @default(now())
-  accion       TipoAccion
-  recurso      TipoRecurso
-  recursoId    Int?     // id del registro afectado
+  id        Int         @id @default(autoincrement())
+  usuarioId Int
+  usuario   Usuario     @relation(fields: [usuarioId], references: [id])
+  fecha     DateTime    @default(now())
+  accion    TipoAccion
+  recurso   TipoRecurso
+  recursoId Int? // id del registro afectado
+
+  @@index([accion, recurso])
 }
