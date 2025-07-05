@@ -115,7 +115,8 @@ model Armazon {
 model Ficha {
   id            Int      @id @default(autoincrement())
   nro_pedido    String
-  fecha         DateTime
+  fecha         DateTime @default(now())
+  fechaEntrega  DateTime? 
   estado        Int      @default(1)
   esCasaCentral Boolean  @default(false)
   voucher       String
