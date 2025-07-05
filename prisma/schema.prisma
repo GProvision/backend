@@ -100,47 +100,47 @@ model Armazon {
   ubicacion         String
   color             String
   codigoColor       String
+  codigoPatilla     String  
   codigoInterno     String  @unique
   cantidad          Int     @default(0)
   cantidadMinima    Int     @default(2)
   activo            Boolean @default(true)
   costo             Decimal @db.Decimal(10, 2) @default(0.00)
   precioVenta       Decimal @db.Decimal(10, 2) @default(0.00)
-  fichas            Ficha[]
-
+  lentes            Lente[]
+  // codigoPatilla
   @@index([codigoInterno])
 }
 
 // Ficha de pedido (versión simple)
 model Ficha {
   id            Int      @id @default(autoincrement())
-  nro_pedido    String
   fecha         DateTime @default(now())
-  fechaEntrega  DateTime? 
-  estado        Int      @default(1)
+  comentario    String?
   esCasaCentral Boolean  @default(false)
-  voucher       String
   activo        Boolean  @default(true)
 
   idCliente    Int
   idSindicato  Int
   idDelegacion Int
   idOptica     Int
-  idArmazon    Int
 
   cliente    Cliente    @relation(fields: [idCliente], references: [id])
   optica     Optica     @relation(fields: [idOptica], references: [id])
-  armazon    Armazon    @relation(fields: [idArmazon], references: [id])
   sindicato  Sindicato  @relation(fields: [idSindicato], references: [id])
   delegacion Delegacion @relation(fields: [idDelegacion], references: [id])
   lentes     Lente[]
 
-  @@index([nro_pedido, voucher])
 }
 
 model Lente {
   id        Int     @id @default(autoincrement())
   tipo      String
+  nro_pedido    String
+  estado        Int      @default(1)
+  voucher       String?
+  codigoBarra    String?
+  fechaEntrega  DateTime? 
   extra     Json?   @db.Json
   // Datos del lente
   gradOdEsf String?
@@ -151,10 +151,12 @@ model Lente {
   ejeOi     String?
 
   // Relaciones
+  idArmazon    Int
   idLaboratorio Int?
   idTipoLente   Int?
   laboratorio   Laboratorio? @relation(fields: [idLaboratorio], references: [id])
   tipoLente     TipoLente?   @relation(fields: [idTipoLente], references: [id])
+  armazon       Armazon    @relation(fields: [idArmazon], references: [id])
   fichas        Ficha[]
 
   @@index([gradOdEsf, gradOdCil, ejeOd, gradOiEsf, gradOiCil, ejeOi])
