@@ -8,10 +8,11 @@ const dir = join(dirname(file), "../uploads");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    if (!existsSync(dir)) {
-      mkdirSync(dir);
+    const folder = join(dir, req.query.folder || "");
+    if (!existsSync(folder)) {
+      mkdirSync(folder);
     }
-    return cb(null, dir);
+    return cb(null, folder);
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + extname(file.originalname));

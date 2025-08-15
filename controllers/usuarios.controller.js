@@ -1,6 +1,5 @@
 import { PrismaClient } from "../generated/prisma/client";
 import { hash, compare } from "bcryptjs";
-import { sign, verify } from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export const getUsuarios = async (req, res) => {
@@ -134,49 +133,10 @@ export const login = async (req, res) => {
     if (!isValid) {
       return res.status(401).json({ error: "Clave incorrecta" });
     }
-    const token = sign({ id: usuario.id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
-    await prisma.usuario.update({
-      where: {
-        id: usuario.id,
-      },
-      data: {
-        token,
-      },
-    });
-    res.json({ token, deadTime: new Date().getTime() + 24 * 60 * 60 * 1000 });
+
+    res.json({ usuario });
   } catch (error) {
     console.error("Error logging in usuario:", error);
     res.status(500).json({ error: "Error logging in usuario" });
-  }
-};
-
-export const logout = async (req, res) => {
-  try {
-    const { id } = req.body;
-    const usuario = await prisma.usuario.update({
-      where: {
-        id: Number(id),
-      },
-      data: {
-        token: null,
-      },
-    });
-    res.json(usuario);
-  } catch (error) {
-    console.error("Error logging out usuario:", error);
-    res.status(500).json({ error: "Error logging out usuario" });
-  }
-};
-
-export const verifyToken = async (req, res) => {
-  try {
-    const { token } = req.body;
-    const decoded = verify(token, process.env.JWT_SECRET);
-    res.json(decoded);
-  } catch (error) {
-    console.error("Error verifying token:", error);
-    res.status(500).json({ error: "Error verifying token" });
   }
 };
