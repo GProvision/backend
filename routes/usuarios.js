@@ -7,8 +7,6 @@ import {
   deleteUsuario,
   restoreUsuario,
   login,
-  logout,
-  verifyToken,
 } from "../controllers/usuarios.controller.js";
 
 const UserRouter = Router();
