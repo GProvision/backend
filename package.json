@@ -8,6 +8,10 @@
     "dev": "nodemon app.js",
     "postinstall": "prisma db push"
   },
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
