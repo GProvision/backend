@@ -19,16 +19,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(dir));
 
 // Routes
-import UserRouter from "./routes/usuarios";
-import RolRouter from "./routes/roles";
-import SyndicatesRouter from "./routes/sindicatos";
-import DelegatesRouter from "./routes/delegaciones";
-import OpticsRouter from "./routes/opticas";
-import ArmsRouter from "./routes/armazones";
-import LensTypeRouter from "./routes/tiposLentes";
-import LensRouter from "./routes/lentes";
-import ClientsRouter from "./routes/clientes";
-import NotesRouter from "./routes/fichas";
+import UserRouter from "./routes/usuarios.js";
+import RolRouter from "./routes/roles.js";
+import SyndicatesRouter from "./routes/sindicatos.js";
+import DelegatesRouter from "./routes/delegaciones.js";
+import OpticsRouter from "./routes/opticas.js";
+import ArmsRouter from "./routes/armazones.js";
+import LensTypeRouter from "./routes/tiposLentes.js";
+import LensRouter from "./routes/lentes.js";
+import ClientsRouter from "./routes/clientes.js";
+import NotesRouter from "./routes/fichas.js";
 app.use("/usuarios", UserRouter);
 app.use("/roles", RolRouter);
 app.use("/sindicatos", SyndicatesRouter);
