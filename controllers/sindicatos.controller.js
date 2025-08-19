@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma/client";
+import { PrismaClient } from "../generated/prisma/client.js";
 const prisma = new PrismaClient();
 
 export const getSindicatos = async (req, res) => {
