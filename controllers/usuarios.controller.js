@@ -114,7 +114,7 @@ export const restoreUsuario = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const verify = async (req, res) => {
   try {
     const { user, clave } = req.body;
     const usuario = await prisma.usuario.findUnique({

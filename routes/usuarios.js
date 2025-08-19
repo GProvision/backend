@@ -6,7 +6,7 @@ import {
   updateUsuario,
   deleteUsuario,
   restoreUsuario,
-  login,
+  verify,
 } from "../controllers/usuarios.controller.js";
 
 const UserRouter = Router();
@@ -17,6 +17,6 @@ UserRouter.put("/update", updateUsuario);
 UserRouter.patch("/delete", deleteUsuario);
 UserRouter.patch("/restore", restoreUsuario);
 UserRouter.post("/", createUsuario);
-UserRouter.post("/login", login);
+UserRouter.post("/verify", verify);
 
 export default UserRouter;
