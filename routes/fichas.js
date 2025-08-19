@@ -7,13 +7,13 @@ import {
   deleteFicha,
   restoreFicha,
 } from "../controllers/fichas.controller.js";
-const router = Router();
+const NotesRouter = Router();
 
-router.get("/", getFichas);
-router.get("/:id", getFichaById);
-router.post("/", createFicha);
-router.put("/update", updateFicha);
-router.patch("/delete", deleteFicha);
-router.patch("/restore", restoreFicha);
+NotesRouter.get("/", getFichas);
+NotesRouter.get("/:id", getFichaById);
+NotesRouter.post("/", createFicha);
+NotesRouter.put("/update", updateFicha);
+NotesRouter.patch("/delete", deleteFicha);
+NotesRouter.patch("/restore", restoreFicha);
 
-export default router;
+export default NotesRouter;

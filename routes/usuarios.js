@@ -11,16 +11,14 @@ import {
   verifyToken,
 } from "../controllers/usuarios.controller.js";
 
-const router = Router();
+const UserRouter = Router();
 
-router.get("/", getUsuarios);
-router.get("/:id", getUsuarioById);
-router.put("/update", updateUsuario);
-router.patch("/delete", deleteUsuario);
-router.patch("/restore", restoreUsuario);
-router.post("/", createUsuario);
-router.post("/login", login);
-router.post("/logout", logout);
-router.post("/token", verifyToken);
+UserRouter.get("/", getUsuarios);
+UserRouter.get("/:id", getUsuarioById);
+UserRouter.put("/update", updateUsuario);
+UserRouter.patch("/delete", deleteUsuario);
+UserRouter.patch("/restore", restoreUsuario);
+UserRouter.post("/", createUsuario);
+UserRouter.post("/login", login);
 
-export default router;
+export default UserRouter;

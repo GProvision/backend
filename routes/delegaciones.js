@@ -5,11 +5,11 @@ import {
   getDelegacionById,
   updateDelegacion,
 } from "../controllers/delegaciones.controller.js";
-const router = Router();
+const DelegatesRouter = Router();
 
-router.get("/", getDelegaciones);
-router.get("/:id", getDelegacionById);
-router.post("/", createDelegacion);
-router.put("/update", updateDelegacion);
+DelegatesRouter.get("/", getDelegaciones);
+DelegatesRouter.get("/:id", getDelegacionById);
+DelegatesRouter.post("/", createDelegacion);
+DelegatesRouter.put("/update", updateDelegacion);
 
-export default router;
+export default DelegatesRouter;

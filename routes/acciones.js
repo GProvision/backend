@@ -5,10 +5,10 @@ import {
   getAccionesByUserId,
 } from "../controllers/acciones.controller.js";
 
-const router = Router();
+const ActionsRouter = Router();
 
-router.get("/", getAcciones);
-router.get("/:userId", getAccionesByUserId);
-router.post("/", createAccion);
+ActionsRouter.get("/", getAcciones);
+ActionsRouter.get("/:userId", getAccionesByUserId);
+ActionsRouter.post("/", createAccion);
 
-export default router;
+export default ActionsRouter;

@@ -7,13 +7,13 @@ import {
   deleteCliente,
   restoreCliente,
 } from "../controllers/clientes.controller.js";
-const router = Router();
+const ClientsRouter = Router();
 
-router.get("/", getClientes);
-router.get("/:id", getClienteById);
-router.post("/", createCliente);
-router.put("/update", updateCliente);
-router.patch("/delete", deleteCliente);
-router.patch("/restore", restoreCliente);
+ClientsRouter.get("/", getClientes);
+ClientsRouter.get("/:id", getClienteById);
+ClientsRouter.post("/", createCliente);
+ClientsRouter.put("/update", updateCliente);
+ClientsRouter.patch("/delete", deleteCliente);
+ClientsRouter.patch("/restore", restoreCliente);
 
-export default router;
+export default ClientsRouter;

@@ -9,14 +9,14 @@ import {
   restoreArmazon,
 } from "../controllers/armazones.controller.js";
 
-const router = Router();
+const ArmsRouter = Router();
 
-router.get("/", getArmazones);
-router.get("/:id", getArmazonById);
-router.post("/", createArmazon);
-router.put("/update", updateArmazon);
-router.patch("/reduce", reduceArmazon);
-router.patch("/delete", deleteArmazon);
-router.patch("/restore", restoreArmazon);
+ArmsRouter.get("/", getArmazones);
+ArmsRouter.get("/:id", getArmazonById);
+ArmsRouter.post("/", createArmazon);
+ArmsRouter.put("/update", updateArmazon);
+ArmsRouter.patch("/reduce", reduceArmazon);
+ArmsRouter.patch("/delete", deleteArmazon);
+ArmsRouter.patch("/restore", restoreArmazon);
 
-export default router;
+export default ArmsRouter;

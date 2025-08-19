@@ -5,11 +5,11 @@ import {
   createSindicato,
   updateSindicato,
 } from "../controllers/sindicatos.controller.js";
-const router = Router();
+const SyndicatesRouter = Router();
 
-router.get("/", getSindicatos);
-router.get("/:id", getSindicatoById);
-router.post("/", createSindicato);
-router.put("/update", updateSindicato);
+SyndicatesRouter.get("/", getSindicatos);
+SyndicatesRouter.get("/:id", getSindicatoById);
+SyndicatesRouter.post("/", createSindicato);
+SyndicatesRouter.put("/update", updateSindicato);
 
-export default router;
+export default SyndicatesRouter;

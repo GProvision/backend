@@ -6,12 +6,12 @@ import {
   deleteTipoLente,
   restoreTipoLente,
 } from "../controllers/tiposlentes.controller.js";
-const router = Router();
+const LensTypeRouter = Router();
 
-router.get("/", getTipoLentes);
-router.post("/", createTipoLente);
-router.put("/update", updateTipoLente);
-router.patch("/delete", deleteTipoLente);
-router.patch("/restore", restoreTipoLente);
+LensTypeRouter.get("/", getTipoLentes);
+LensTypeRouter.post("/", createTipoLente);
+LensTypeRouter.put("/update", updateTipoLente);
+LensTypeRouter.patch("/delete", deleteTipoLente);
+LensTypeRouter.patch("/restore", restoreTipoLente);
 
-export default router;
+export default LensTypeRouter;

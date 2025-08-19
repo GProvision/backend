@@ -5,11 +5,11 @@ import {
   addLenteToFicha,
   removeLenteFromFicha,
 } from "../controllers/lentes.controller.js";
-const router = Router();
+const LensRouter = Router();
 
-router.post("/", createLente);
-router.put("/update", updateLente);
-router.patch("/add", addLenteToFicha);
-router.patch("/remove", removeLenteFromFicha);
+LensRouter.post("/", createLente);
+LensRouter.put("/update", updateLente);
+LensRouter.patch("/add", addLenteToFicha);
+LensRouter.patch("/remove", removeLenteFromFicha);
 
-export default router;
+export default LensRouter;

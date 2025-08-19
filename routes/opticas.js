@@ -9,15 +9,15 @@ import {
   addSindicatoToOptica,
   removeSindicatoFromOptica,
 } from "../controllers/opticas.controller.js";
-const router = Router();
+const OpticsRouter = Router();
 
-router.get("/", getOpticas);
-router.get("/:id", getOpticaById);
-router.post("/", createOptica);
-router.put("/update", updateOptica);
-router.patch("/delete", deleteOptica);
-router.patch("/restore", restoreOptica);
-router.patch("/add", addSindicatoToOptica);
-router.patch("/remove", removeSindicatoFromOptica);
+OpticsRouter.get("/", getOpticas);
+OpticsRouter.get("/:id", getOpticaById);
+OpticsRouter.post("/", createOptica);
+OpticsRouter.put("/update", updateOptica);
+OpticsRouter.patch("/delete", deleteOptica);
+OpticsRouter.patch("/restore", restoreOptica);
+OpticsRouter.patch("/add", addSindicatoToOptica);
+OpticsRouter.patch("/remove", removeSindicatoFromOptica);
 
-export default router;
+export default OpticsRouter;
