@@ -69,7 +69,7 @@ export const createOptica = async (req, res) => {
 
 export const updateOptica = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const { nombre, activo } = req.body;
     const optica = await prisma.optica.update({
       where: {

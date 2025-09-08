@@ -44,7 +44,7 @@ export const createDelegacion = async (req, res) => {
 
 export const updateDelegacion = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const { nombre, activo } = req.body;
     const delegacion = await prisma.delegacion.update({
       where: {
@@ -61,3 +61,39 @@ export const updateDelegacion = async (req, res) => {
     res.status(500).json({ error: "Error updating delegacion" });
   }
 };
+
+export const deleteDelegacion = async (req,res) => {
+  try {
+    const { id } = req.body;
+    const delegacion = await prisma.delegacion.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        activo: false,
+      },
+    });
+    res.json(delegacion);
+  } catch (error) {
+    console.error("Error updating delegacion:", error);
+    res.status(500).json({ error: "Error updating delegacion" });
+  }
+}
+
+export const restoreDelegacion = async (req,res) => {
+  try {
+    const { id } = req.body;
+    const delegacion = await prisma.delegacion.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        activo: true,
+      },
+    });
+    res.json(delegacion);
+  } catch (error) {
+    console.error("Error updating delegacion:", error);
+    res.status(500).json({ error: "Error updating delegacion" });
+  }
+}
