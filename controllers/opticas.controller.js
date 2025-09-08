@@ -89,7 +89,7 @@ export const updateOptica = async (req, res) => {
 
 export const deleteOptica = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const optica = await prisma.optica.update({
       where: {
         id: Number(id),
@@ -107,7 +107,7 @@ export const deleteOptica = async (req, res) => {
 
 export const restoreOptica = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const optica = await prisma.optica.update({
       where: {
         id: Number(id),
@@ -125,7 +125,7 @@ export const restoreOptica = async (req, res) => {
 
 export const addSindicatoToOptica = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const { idSindicato } = req.body;
     const optica = await prisma.optica.update({
       where: {
@@ -148,7 +148,7 @@ export const addSindicatoToOptica = async (req, res) => {
 
 export const removeSindicatoFromOptica = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const { idSindicato } = req.body;
     const optica = await prisma.optica.update({
       where: {
