@@ -15,7 +15,7 @@ export const getSindicatos = async (req, res) => {
     const sindicatos = await prisma.sindicato.findMany({
       where,
       include: {
-        optica: true,
+        opticas: true,
       },
     });
     res.json(sindicatos);
@@ -33,7 +33,7 @@ export const getSindicatoById = async (req, res) => {
         id: Number(id),
       },
       include: {
-        optica: true,
+        opticas: true,
         clientes: true,
         fichas: true,
       },
