@@ -6,6 +6,7 @@ import {
   updateDelegacion,
   deleteDelegacion,
   restoreDelegacion,
+  removeDelegacion,
 } from "../controllers/delegaciones.controller.js";
 const DelegatesRouter = Router();
 
@@ -15,5 +16,6 @@ DelegatesRouter.post("/", createDelegacion);
 DelegatesRouter.put("/update", updateDelegacion);
 DelegatesRouter.patch("/restore", restoreDelegacion);
 DelegatesRouter.delete("/delete", deleteDelegacion);
+DelegatesRouter.delete("/remove", removeDelegacion);
 
 export default DelegatesRouter;

@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import morgan from "morgan";
 // import rateLimit from "./middlewares/rateLimit";
 dotenv.config();
 
@@ -17,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(dir));
-
+app.use(morgan("combined"));
 // Routes
 import UserRouter from "./routes/usuarios.js";
 import RolRouter from "./routes/roles.js";

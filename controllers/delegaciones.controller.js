@@ -3,7 +3,11 @@ const prisma = new PrismaClient();
 
 export const getDelegaciones = async (req, res) => {
   try {
-    const delegaciones = await prisma.delegacion.findMany();
+    const delegaciones = await prisma.delegacion.findMany({
+      include: {
+        optica: true,
+      },
+    });
     res.json(delegaciones);
   } catch (error) {
     console.error("Error fetching delegaciones:", error);
@@ -18,6 +22,9 @@ export const getDelegacionById = async (req, res) => {
       where: {
         id: Number(id),
       },
+      include: {
+        optica: true,
+      },
     });
     res.json(delegacion);
   } catch (error) {
@@ -28,11 +35,13 @@ export const getDelegacionById = async (req, res) => {
 
 export const createDelegacion = async (req, res) => {
   try {
-    const { nombre, activo } = req.body;
+    const { provincia, localidad, activo, opticaId } = req.body;
     const delegacion = await prisma.delegacion.create({
       data: {
-        nombre,
+        provincia,
+        localidad,
         activo: Boolean(activo),
+        opticaId: Number(opticaId),
       },
     });
     res.json(delegacion);
@@ -44,15 +53,14 @@ export const createDelegacion = async (req, res) => {
 
 export const updateDelegacion = async (req, res) => {
   try {
-    const { id } = req.body;
-    const { nombre, activo } = req.body;
+    const { id, nombre, opticaId } = req.body;
     const delegacion = await prisma.delegacion.update({
       where: {
         id: Number(id),
       },
       data: {
         nombre,
-        activo: Boolean(activo),
+        opticaId: Number(opticaId),
       },
     });
     res.json(delegacion);
@@ -62,7 +70,7 @@ export const updateDelegacion = async (req, res) => {
   }
 };
 
-export const deleteDelegacion = async (req,res) => {
+export const deleteDelegacion = async (req, res) => {
   try {
     const { id } = req.body;
     const delegacion = await prisma.delegacion.update({
@@ -78,9 +86,9 @@ export const deleteDelegacion = async (req,res) => {
     console.error("Error updating delegacion:", error);
     res.status(500).json({ error: "Error updating delegacion" });
   }
-}
+};
 
-export const restoreDelegacion = async (req,res) => {
+export const restoreDelegacion = async (req, res) => {
   try {
     const { id } = req.body;
     const delegacion = await prisma.delegacion.update({
@@ -96,4 +104,19 @@ export const restoreDelegacion = async (req,res) => {
     console.error("Error updating delegacion:", error);
     res.status(500).json({ error: "Error updating delegacion" });
   }
-}
+};
+
+export const removeDelegacion = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const delegacion = await prisma.delegacion.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    res.json(delegacion);
+  } catch (error) {
+    console.error("Error deleting delegacion:", error);
+    res.status(500).json({ error: "Error deleting delegacion" });
+  }
+};

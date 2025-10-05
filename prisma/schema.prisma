@@ -48,31 +48,29 @@ model Sindicato {
   id           Int          @id @default(autoincrement())
   nombre       String  @unique
   activo       Boolean      @default(true)
-  delegaciones Delegacion[]
-  opticas      Optica[]
-  clientes     Cliente[] // Un Sindicato tiene muchos Clientes
+  opticas       Optica[]
+  clientes     Cliente[]
   fichas       Ficha[]
-
   @@index([nombre])
 }
 
 model Delegacion {
   id         Int         @id @default(autoincrement())
-  nombre     String  @unique
+  provincia  String
+  localidad  String
   activo     Boolean     @default(true)
-  sindicatos Sindicato[]
+  opticas    Optica[]
   fichas     Ficha[]
-
-  @@index([nombre])
+  @@index([provincia, localidad])
 }
 
 model Optica {
   id         Int         @id @default(autoincrement())
   nombre     String  @unique
   activo     Boolean     @default(true)
+  delegaciones Delegacion[]
   sindicatos Sindicato[]
   fichas     Ficha[]
-
   @@index([nombre])
 }
 
@@ -96,20 +94,20 @@ model Laboratorio {
 
 model Armazon {
   id                Int     @id @default(autoincrement())
-  material          String
-  tipoArmazon       String
-  ubicacion         String
-  color             String
-  codigoColor       String
   codigoPatilla     String  
   codigoInterno     String  @unique
+  descripcion       String
+  codigoColor       String
+  letraColor        String
+  tipoArmazon       String
+  material          String
+  ubicacion         String
   cantidad          Int     @default(0)
   cantidadMinima    Int     @default(2)
   activo            Boolean @default(true)
   costo             Decimal @db.Decimal(10, 2) @default(0.00)
   precioVenta       Decimal @db.Decimal(10, 2) @default(0.00)
   lentes            Lente[]
-  // codigoPatilla
   @@index([codigoInterno])
 }
 

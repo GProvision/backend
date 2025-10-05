@@ -24,6 +24,7 @@ export const getOpticas = async (req, res) => {
       where,
       include: {
         sindicatos: true,
+        delegaciones: true,
       },
     });
     res.json(opticas);
@@ -42,6 +43,7 @@ export const getOpticaById = async (req, res) => {
       },
       include: {
         sindicatos: true,
+        delegaciones: true,
       },
     });
     res.json(optica);
@@ -166,5 +168,51 @@ export const removeSindicatoFromOptica = async (req, res) => {
   } catch (error) {
     console.error("Error removing sindicato from optica:", error);
     res.status(500).json({ error: "Error removing sindicato from optica" });
+  }
+};
+
+export const addDelegacionToOptica = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const { idDelegacion } = req.body;
+    const optica = await prisma.optica.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        delegaciones: {
+          connect: {
+            id: Number(idDelegacion),
+          },
+        },
+      },
+    });
+    res.json(optica);
+  } catch (error) {
+    console.error("Error adding delegacion to optica:", error);
+    res.status(500).json({ error: "Error adding delegacion to optica" });
+  }
+};
+
+export const removeDelegacionFromOptica = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const { idDelegacion } = req.body;
+    const optica = await prisma.optica.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        delegaciones: {
+          disconnect: {
+            id: Number(idDelegacion),
+          },
+        },
+      },
+    });
+    res.json(optica);
+  } catch (error) {
+    console.error("Error removing delegacion from optica:", error);
+    res.status(500).json({ error: "Error removing delegacion from optica" });
   }
 };

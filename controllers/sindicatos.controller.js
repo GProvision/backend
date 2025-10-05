@@ -14,6 +14,9 @@ export const getSindicatos = async (req, res) => {
     }
     const sindicatos = await prisma.sindicato.findMany({
       where,
+      include: {
+        optica: true,
+      },
     });
     res.json(sindicatos);
   } catch (error) {
@@ -28,6 +31,11 @@ export const getSindicatoById = async (req, res) => {
     const sindicato = await prisma.sindicato.findUnique({
       where: {
         id: Number(id),
+      },
+      include: {
+        optica: true,
+        clientes: true,
+        fichas: true,
       },
     });
     res.json(sindicato);
@@ -66,5 +74,56 @@ export const updateSindicato = async (req, res) => {
   } catch (error) {
     console.error("Error updating sindicato:", error);
     res.status(500).json({ error: "Error updating sindicato" });
+  }
+};
+
+export const deleteSindicato = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const sindicato = await prisma.sindicato.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        activo: false,
+      },
+    });
+    res.json(sindicato);
+  } catch (error) {
+    console.error("Error deleting sindicato:", error);
+    res.status(500).json({ error: "Error deleting sindicato" });
+  }
+};
+
+export const restoreSindicato = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const sindicato = await prisma.sindicato.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        activo: true,
+      },
+    });
+    res.json(sindicato);
+  } catch (error) {
+    console.error("Error restoring sindicato:", error);
+    res.status(500).json({ error: "Error restoring sindicato" });
+  }
+};
+
+export const removeSindicato = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const sindicato = await prisma.sindicato.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    res.json(sindicato);
+  } catch (error) {
+    console.error("Error deleting sindicato:", error);
+    res.status(500).json({ error: "Error deleting sindicato" });
   }
 };
