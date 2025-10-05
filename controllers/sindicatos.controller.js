@@ -56,8 +56,9 @@ export const createSindicato = async (req, res) => {
     });
     res.json(sindicato);
   } catch (error) {
-    console.error("Error creating sindicato:", error);
-    res.status(500).json({ error: "Error creating sindicato" });
+    res
+      .status(500)
+      .json({ error: error?.message || "Error creando sindicato" });
   }
 };
 
@@ -72,8 +73,9 @@ export const updateSindicato = async (req, res) => {
     });
     res.json({ sindicato });
   } catch (error) {
-    console.error("Error updating sindicato:", error);
-    res.status(500).json({ error: "Error updating sindicato" });
+    res
+      .status(500)
+      .json({ error: error?.message || "Error actualizando sindicato" });
   }
 };
 
@@ -90,8 +92,9 @@ export const deleteSindicato = async (req, res) => {
     });
     res.json(sindicato);
   } catch (error) {
-    console.error("Error deleting sindicato:", error);
-    res.status(500).json({ error: "Error deleting sindicato" });
+    res
+      .status(500)
+      .json({ error: error?.message || "Error eliminando sindicato" });
   }
 };
 
@@ -108,8 +111,9 @@ export const restoreSindicato = async (req, res) => {
     });
     res.json(sindicato);
   } catch (error) {
-    console.error("Error restoring sindicato:", error);
-    res.status(500).json({ error: "Error restoring sindicato" });
+    res
+      .status(500)
+      .json({ error: error?.message || "Error restaurando sindicato" });
   }
 };
 
@@ -123,7 +127,8 @@ export const removeSindicato = async (req, res) => {
     });
     res.json(sindicato);
   } catch (error) {
-    console.error("Error deleting sindicato:", error);
-    res.status(500).json({ error: "Error deleting sindicato" });
+    res
+      .status(500)
+      .json({ error: error?.message || "Error eliminando sindicato" });
   }
 };
