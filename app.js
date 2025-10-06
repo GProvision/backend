@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import detectPort from "detect-port";
 // import rateLimit from "./middlewares/rateLimit";
 dotenv.config();
 
@@ -42,8 +43,8 @@ app.use("/clientes", ClientsRouter);
 app.use("/fichas", NotesRouter);
 
 // Start Server
-const port = process.env.PORT || 3000;
+const port = await detectPort(process.env.PORT || 3000);
 app.listen(port, () => {
-  console.log(`Servidor ejecutándose en el puerto ${port}`);
+  console.log(`Servidor ejecutándose en el puerto http://localhost:${port}`);
   console.log(`Entorno: ${process.env.NODE_ENV || "development"}`);
 });
