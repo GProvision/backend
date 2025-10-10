@@ -62,19 +62,23 @@ export const createUsuario = async (req, res) => {
 
 export const updateUsuario = async (req, res) => {
   try {
-    const { id, clave } = req.body;
-    const hashedPassword = await hash(clave, 10);
-    req.body.clave = hashedPassword;
+    let { id, ...data } = req.body;
+
+    if (data?.clave) {
+      const hashedPassword = await hash(data.clave, 10);
+      data.clave = hashedPassword;
+    }
+
     const usuario = await prisma.usuario.update({
       where: {
         id: Number(id),
       },
-      data: req.body,
+      data,
     });
     res.json(usuario);
   } catch (error) {
     console.error("Error updating usuario:", error);
-    res.status(500).json({ error: "Error updating usuario" });
+    res.status(500).json({ error: error.message || "Error updating usuario" });
   }
 };
 
