@@ -63,10 +63,10 @@ export const updateDelegacion = async (req, res) => {
 
 export const removeDelegacion = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { idDelegacion } = req.body;
     const delegacion = await prisma.delegacion.delete({
       where: {
-        id: Number(id),
+        id: Number(idDelegacion),
       },
     });
     res.json(delegacion);
