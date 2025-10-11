@@ -37,7 +37,7 @@ app.use("/sindicatos", SyndicatesRouter);
 app.use("/delegaciones", DelegatesRouter);
 app.use("/opticas", OpticsRouter);
 app.use("/armazones", ArmsRouter);
-app.use("/tipos", LensTypeRouter);
+app.use("/tipos/lentes", LensTypeRouter);
 app.use("/lentes", LensRouter);
 app.use("/clientes", ClientsRouter);
 app.use("/fichas", NotesRouter);
