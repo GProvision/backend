@@ -136,7 +136,6 @@ model Lente {
   id        Int     @id @default(autoincrement())
   tipo      String
   nro_pedido    String
-  estado        Int      @default(1)
   voucher       String?
   codigoBarra    String?
   fechaEntrega  DateTime? 
@@ -153,9 +152,11 @@ model Lente {
   idArmazon    Int
   idLaboratorio Int?
   idTipoLente   Int?
+  idEstado      Int @default(1)
   laboratorio   Laboratorio? @relation(fields: [idLaboratorio], references: [id])
   tipoLente     TipoLente?   @relation(fields: [idTipoLente], references: [id])
   armazon       Armazon    @relation(fields: [idArmazon], references: [id])
+  estado        Estado     @relation(fields: [idEstado], references: [id])
   fichas        Ficha[]
 
   @@index([gradOdEsf, gradOdCil, ejeOd, gradOiEsf, gradOiCil, ejeOi])
@@ -192,4 +193,12 @@ model Accion {
   recursoId Int? // id del registro afectado
 
   @@index([accion, recurso])
+}
+
+
+model Estado{
+  id       Int       @id @default(autoincrement())
+  nombre   String   @unique
+  activo   Boolean  @default(true)
+  lentes   Lente[]
 }

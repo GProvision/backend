@@ -32,6 +32,7 @@ import LensRouter from "./routes/lentes.js";
 import ClientsRouter from "./routes/clientes.js";
 import NotesRouter from "./routes/fichas.js";
 import LaboratoriosRouter from "./routes/laboratorios.js";
+import EstadosRouter from "./routes/estados.js";
 app.use("/usuarios", UserRouter);
 app.use("/roles", RolRouter);
 app.use("/sindicatos", SyndicatesRouter);
@@ -43,6 +44,7 @@ app.use("/lentes", LensRouter);
 app.use("/clientes", ClientsRouter);
 app.use("/fichas", NotesRouter);
 app.use("/laboratorios", LaboratoriosRouter);
+app.use("/estados", EstadosRouter);
 
 // Start Server
 const port = await detectPort(process.env.PORT || 3000);

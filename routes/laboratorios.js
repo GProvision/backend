@@ -13,7 +13,7 @@ LaboratoriosRouter.get("/", getAll);
 LaboratoriosRouter.get("/:id", getOne);
 LaboratoriosRouter.post("/", create);
 LaboratoriosRouter.put("/update", update);
-LaboratoriosRouter.delete("/remove", remove);
-LaboratoriosRouter.put("/restore", restore);
+LaboratoriosRouter.patch("/remove", remove);
+LaboratoriosRouter.patch("/restore", restore);
 
 export default LaboratoriosRouter;
