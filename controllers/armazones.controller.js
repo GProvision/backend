@@ -11,7 +11,7 @@ export const createArmazon = async (req, res) => {
     res.json(armazonCreated);
   } catch (error) {
     console.error("Error creating armazon:", error);
-    res.status(500).json({ error: "Error creating armazon" });
+    res.status(500).json({ error: error.message || "Error creating armazon" });
   }
 };
 
@@ -29,8 +29,8 @@ export const getArmazones = async (req, res) => {
     const armazones = await prisma.armazon.findMany({
       where,
       include: {
-        fichas: true,
-      },
+        lentes: true
+      }
     });
     res.json(armazones);
   } catch (error) {
@@ -47,7 +47,7 @@ export const getArmazonById = async (req, res) => {
         id: Number(id),
       },
       include: {
-        fichas: true,
+        lentes: true,
       },
     });
     res.json(armazon);
